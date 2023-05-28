@@ -127,9 +127,10 @@
 				{/each}
 			</tbody>
 		</table>
+		<br>
 
 		<label for="notes">Extra Notes</label>
-		<textarea id="notes" bind:value={notes} />
+		<textarea id="notes" bind:value={notes} cols="62" rows="5"/>
 
 		<button type="submit" on:click={() => (window.location.href = '#top')}>Place Order</button>
 	</form>
