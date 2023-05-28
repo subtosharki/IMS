@@ -5,7 +5,8 @@ export async function setOrderStatus(
 	orderId: string,
 	status: OrderStatus,
 	apikey: string,
-	fetch: typeof window.fetch
+	fetch: typeof window.fetch,
+	reason?: string
 ) {
 	let res: Response;
 	try {
@@ -16,7 +17,8 @@ export async function setOrderStatus(
 				apikey
 			},
 			body: JSON.stringify({
-				status
+				status,
+				voidReason: reason
 			})
 		});
 	} catch (e) {

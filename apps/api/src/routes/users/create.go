@@ -10,6 +10,11 @@ import (
 )
 
 func Create(c *fiber.Ctx) error {
+	performingUser := c.Locals("user").(*structs.User)
+	if performingUser.Role != "admin" {
+		return c.Status(fiber.StatusForbidden).JSON(fiber.Map{"message": "You do not have permission to create users"})
+	}
+
 	bodyRequest := new(structs.CreateUserRequest)
 
 	err := c.BodyParser(bodyRequest)
@@ -26,10 +31,15 @@ func Create(c *fiber.Ctx) error {
 	user.GenerateUserID()
 	user.GenerateAPIKey()
 
+	role := "sales"
+	if bodyRequest.Admin {
+		role = "admin"
+	}
+
 	mongodb := c.Locals("mongo").(*mongo.Database)
 	collection := mongodb.Collection("users")
 
-	result, err := collection.InsertOne(context.Background(), bson.M{"email": bodyRequest.Email, "password": bodyRequest.Password, "admin": bodyRequest.Admin, "apikey": user.APIKey})
+	result, err := collection.InsertOne(context.Background(), bson.M{"email": bodyRequest.Email, "firstName": bodyRequest.FirstName, "lastName": bodyRequest.LastName, "password": bodyRequest.Password, "role": role, "apikey": user.APIKey, "userId": user.UserId})
 
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": "Error creating user"})

@@ -5,16 +5,15 @@
 	import { getMonthName } from '$lib/functions/getMonthName.js';
 	import type { Clone, User } from '$lib/types';
 
-	export let data: App.PageData;
+	export let data;
 	let clones: Clone[] = [],
 		user =
 			data.user ||
 			({
 				email: '',
 				apikey: '',
-				admin: false
+				role: ''
 			} as User);
-
 	onMount(async () => {
 		clones = await getClones(user.apikey, data.fetch!);
 	});
@@ -30,7 +29,7 @@
 	<p>Welcome, {user.email} to the dashboard</p>
 	<button on:click={async () => await goto('/order')}>Place Order</button>
 	<button on:click={async () => await goto('/orders')}>View Orders</button>
-	{#if user.admin}
+	{#if user.role.includes('admin')}
 		<button on:click={async () => await goto('/admin')}>Admin</button>
 	{/if}
 	<button style="background-color: #ff3e00" on:click={async () => await goto('/logout')}

@@ -28,6 +28,23 @@ func UpdateNotes(c *fiber.Ctx) error {
 
 	mongodb := c.Locals("mongo").(*mongo.Database)
 	collection := mongodb.Collection("orders")
+
+	order := new(structs.Order)
+
+	err = collection.FindOne(context.Background(), bson.M{"orderNumber": orderId}).Decode(&order)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"message": "Order not found"})
+	}
+
+	if order.Notes == bodyRequest.Notes {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"message": "Notes are identical to the current notes"})
+	}
+
+	user := c.Locals("user").(*structs.User)
+	if order.PlacedBy != user.Email && user.Role != "admin" {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "You are not authorized to update this order"})
+	}
+
 	result, err := collection.UpdateOne(context.Background(), bson.M{"orderNumber": orderId}, bson.M{"$set": bson.M{"notes": bodyRequest.Notes}})
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": "Error saving notes"})

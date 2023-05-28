@@ -7,14 +7,14 @@
 	import { downloadOrders } from '$lib/functions/orders/downloadOrders';
 	import type { Order, User } from '$lib/types';
 
-	export let data: App.PageData;
+	export let data
 	let orders: Order[] = [],
 		voidedOrders: Order[] = [],
 		seeVoided = false,
 		user =
 			data.user ||
 			({
-				admin: false,
+				role: '',
 				email: '',
 				apikey: ''
 			} as User);
@@ -41,7 +41,7 @@
 	<button on:click={() => (seeVoided = !seeVoided)}
 		>{!seeVoided ? 'View Fulfilled/Voided Orders' : 'View Pending Orders'}</button
 	>
-	{#if user.admin}
+	{#if user.role.includes('admin')}
 		<button on:click={async () => await downloadOrders(document, user.apikey, data.fetch)}
 			>Download Order Logs</button
 		>
@@ -76,13 +76,29 @@
 						<select
 							id="status"
 							on:change={async (e) => {
+								let reason;
+								if(e.target.value === order.status) return;
+								if(e.target.value === 'Voided') {
+									reason = prompt('Please enter a reason for voiding this order');
+									 if(reason === null) {
+										 e.target.value = order.status;
+										 return
+									 }
+									 await updateOrderNotes(order.orderNumber, order.notes + 'Voided by: ' + user.email + ' for: \n\n' + reason, user.apikey, data.fetch)
+								await setOrderStatus(order.orderNumber, e.target.value, user.apikey, data.fetch, reason)
+								await loadOrders();
+								} else {
 								await setOrderStatus(order.orderNumber, e.target.value, user.apikey, data.fetch);
 								await loadOrders();
-							}}
+							}}}
 						>
-							{#each ['In Progress', 'Fulfilled', 'Voided'] as status}
+
+							{#each ['In Progress', 'Fulfilled'] as status}
 								<option value={status} selected={order.status === status}>{status}</option>
 							{/each}
+							{#if user.role.includes('admin')}
+								<option value="Voided" selected={order.status === 'Voided'}>Voided</option>
+							{/if}
 						</select>
 					</td>
 					<td
@@ -91,7 +107,7 @@
 							bind:value={order.notes}
 							on:change={async () =>
 								await updateOrderNotes(order.orderNumber, order.notes, user.apikey, data.fetch)}
-						/>
+						rows="5"/>
 					</td>
 				</tr>
 			{/each}

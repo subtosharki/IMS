@@ -3,12 +3,16 @@ export interface User {
 	userId: string;
 	apikey: string;
 	email: string;
+	firstName: string;
+	lastName: string;
 	password: string;
-	admin: boolean;
+	role: 'sales' | 'admin';
 }
 
 export interface CreateUserBody {
 	email: string;
+	firstName: string;
+	lastName: string;
 	password: string;
 	admin: boolean;
 }

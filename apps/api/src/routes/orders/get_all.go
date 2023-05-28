@@ -9,6 +9,33 @@ import (
 )
 
 func GetAll(c *fiber.Ctx) error {
+	user := c.Locals("user").(*structs.User)
+	if user.Role != "admin" {
+		mongodb := c.Locals("mongo").(*mongo.Database)
+		collection := mongodb.Collection("orders")
+		cursor, err := collection.Find(context.Background(), bson.M{"placedBy": user.Email})
+		if err != nil {
+			panic(err)
+		}
+		defer func(cursor *mongo.Cursor, ctx context.Context) {
+			err := cursor.Close(ctx)
+			if err != nil {
+				panic(err)
+			}
+		}(cursor, context.Background())
+
+		var orders []structs.Order
+		for cursor.Next(context.Background()) {
+			var order structs.Order
+			err := cursor.Decode(&order)
+			if err != nil {
+				panic(err)
+			}
+			orders = append(orders, order)
+		}
+		return c.Status(fiber.StatusOK).JSON(orders)
+	}
+
 	mongodb := c.Locals("mongo").(*mongo.Database)
 	collection := mongodb.Collection("orders")
 	cursor, err := collection.Find(context.Background(), bson.M{})

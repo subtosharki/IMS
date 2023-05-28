@@ -10,6 +10,11 @@ import (
 )
 
 func EditName(c *fiber.Ctx) error {
+	user := c.Locals("user").(*structs.User)
+	if user.Role != "admin" {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "Unauthorized"})
+	}
+
 	id := c.Params("id")
 	if id == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Missing clone id"})

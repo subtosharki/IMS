@@ -9,6 +9,11 @@ import (
 )
 
 func GetAll(c *fiber.Ctx) error {
+	user := c.Locals("user").(*structs.User)
+	if user.Role != "admin" {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "Unauthorized"})
+	}
+
 	mongodb := c.Locals("mongo").(*mongo.Database)
 	collection := mongodb.Collection("customers")
 	cursor, err := collection.Find(context.Background(), bson.M{})

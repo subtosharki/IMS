@@ -6,7 +6,7 @@
 	import { deleteUser } from '$lib/functions/users/deleteUser';
 	import type { User } from '$lib/types';
 
-	export let data: App.PageData;
+	export let data;
 	let users: User[] = [],
 		user =
 			data.user ||
@@ -27,33 +27,37 @@
 <main>
 	<h1>Manage Users</h1>
 	<button on:click={async () => await goto('./')}>Back</button>
-	<button on:click={async () => await goto('/users/add')}>Add User</button>
+	<button on:click={async () => await goto('users/add')}>Add User</button>
 	<p>Manage Users Page</p>
 
 	<table>
 		<thead>
 			<tr>
+				<th>Name</th>
 				<th>Email</th>
 				<th>Password</th>
-				<th>API Key</th>
-				<th>Admin</th>
+				<th>Role</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
 		<tbody>
 			{#each users as loopedUser}
 				<tr>
+					<td>{loopedUser.firstName + ' ' + loopedUser.lastName}</td>
 					<td>{loopedUser.email}</td>
 					<td>{loopedUser.password}</td>
-					<td>{loopedUser.apikey}</td>
-					<td>{loopedUser.admin}</td>
+					<td>{loopedUser.role}</td>
 					<td>
 						<button
 							on:click={async () => {
 								await toggleAdmin(loopedUser.userId, user.apikey, data.fetch);
 								users.forEach((user) => {
 									if (user.userId === loopedUser.userId) {
-										user.admin = !user.admin;
+										if(user.role === 'admin') {
+											user.role = 'sales';
+										} else {
+											user.role = 'admin';
+										}
 									}
 								});
 								users = users;

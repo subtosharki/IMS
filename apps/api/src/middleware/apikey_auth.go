@@ -22,12 +22,12 @@ func APIKeyAuth(c *fiber.Ctx) error {
 	mongodb := c.Locals("mongo").(*mongo.Database)
 	collection := mongodb.Collection("users")
 	user := new(structs.User)
-
 	err = collection.FindOne(context.Background(), bson.M{"apikey": req.APIKey}).Decode(&user)
 	if err != nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "Invalid API key"})
 	}
 
+	c.Locals("user", user)
 	return c.Next()
 
 }

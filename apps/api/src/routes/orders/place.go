@@ -37,15 +37,7 @@ func Place(c *fiber.Ctx) error {
 
 	mongodb := c.Locals("mongo").(*mongo.Database)
 	collection := mongodb.Collection("orders")
-
-	req := new(structs.APIKeyRequest)
-	err = c.ReqHeaderParser(req)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid API key"})
-	}
-
-	user := new(structs.User)
-	err = mongodb.Collection("users").FindOne(context.Background(), bson.M{"apikey": req.APIKey}).Decode(&user)
+	user := c.Locals("user").(*structs.User)
 
 	_, err = collection.InsertOne(context.Background(), bson.M{
 		"cloneId":      uuid.New().String(),

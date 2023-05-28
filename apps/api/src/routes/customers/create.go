@@ -10,6 +10,11 @@ import (
 )
 
 func Create(c *fiber.Ctx) error {
+	user := c.Locals("user").(*structs.User)
+	if user.Role != "admin" {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "Unauthorized"})
+	}
+
 	bodyRequest := new(structs.CreateCustomerRequest)
 	err := c.BodyParser(bodyRequest)
 	if err != nil {

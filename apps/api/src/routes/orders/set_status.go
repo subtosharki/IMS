@@ -29,8 +29,34 @@ func SetStatus(c *fiber.Ctx) error {
 	if bodyRequest.Status != "Voided" && bodyRequest.Status != "Fulfilled" && bodyRequest.Status != "In Progress" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid status"})
 	}
+
+	user := c.Locals("user").(*structs.User)
+
+	if bodyRequest.Status == "Voided" && user.Role != "admin" {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "You are not authorized to update this order"})
+	}
+
+	if bodyRequest.Status == "Voided" && bodyRequest.VoidReason == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid void reason"})
+	}
+
 	mongodb := c.Locals("mongo").(*mongo.Database)
 	collection := mongodb.Collection("orders")
+
+	order := new(structs.Order)
+	err = collection.FindOne(context.Background(), bson.M{"orderNumber": orderId}).Decode(&order)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"message": "Order not found"})
+	}
+
+	if order.Status == bodyRequest.Status {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"message": "Status is identical to the current status"})
+	}
+
+	if order.PlacedBy != user.Email && user.Role != "admin" {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "You are not authorized to update this order"})
+	}
+
 	result, err := collection.UpdateOne(context.Background(), bson.M{"orderNumber": orderId}, bson.M{"$set": bson.M{"status": bodyRequest.Status}})
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Status Already Set as " + bodyRequest.Status})

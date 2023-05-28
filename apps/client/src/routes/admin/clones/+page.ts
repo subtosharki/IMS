@@ -13,7 +13,7 @@ export const load = (async ({ fetch }) => {
 				AES.decrypt(localStorage.getItem('apikey') as string, ENCRYPTION_KEY).toString(enc.Utf8),
 				fetch
 			);
-			if (!user.admin) await goto('/dashboard');
+			if (user.role !== 'admin') await goto('/dashboard');
 			return { user, fetch };
 		} catch (e) {
 			localStorage.removeItem('apikey');

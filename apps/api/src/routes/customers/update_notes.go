@@ -10,6 +10,11 @@ import (
 )
 
 func UpdateNotes(c *fiber.Ctx) error {
+	user := c.Locals("user").(*structs.User)
+	if user.Role != "admin" {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "Unauthorized"})
+	}
+
 	customerId := c.Params("id")
 	if customerId == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Missing order id"})

@@ -2,8 +2,9 @@
 	import { createUser } from '$lib/functions/users/createUser';
 	import { goto } from '$app/navigation';
 
-	export let data: App.PageData;
+	export let data;
 	let email,
+			firstName, lastName,
 		password,
 		admin,
 		errMsg = '',
@@ -15,8 +16,10 @@
 			setError('Please enter an email and password');
 			return;
 		}
-		await createUser({ email, password, admin }, user.apikey, data.fetch!);
+		await createUser({ email, password, firstName, lastName, admin }, user.apikey, data.fetch!);
 		email = '';
+		firstName = '';
+		lastName = '';
 		password = '';
 		admin = false;
 		errMsg = 'User Created';
@@ -43,6 +46,11 @@
 	<form on:submit|preventDefault={async () => await handleSubmit()}>
 		<label for="email">Email</label>
 		<input type="email" id="email" name="email" bind:value={email} />
+
+		<label for="firstName">First Name</label>
+		<input type="text" id="firstName" name="firstName" bind:value={firstName} />
+		<label for="lastName">Last Name</label>
+		<input type="text" id="lastName" name="lastName" bind:value={lastName} />
 		<label for="password">Password</label>
 		<input type="password" id="password" name="password" bind:value={password} />
 		<label for="admin">Admin</label>

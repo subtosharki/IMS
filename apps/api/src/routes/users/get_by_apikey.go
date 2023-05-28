@@ -14,9 +14,11 @@ func GetByAPIKey(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"message": "User not found"})
 	}
 
-	user := new(structs.User)
 	mongodb := c.Locals("mongo").(*mongo.Database)
 	collection := mongodb.Collection("users")
+
+	user := new(structs.User)
+
 	err := collection.FindOne(context.Background(), bson.M{"apikey": apikey}).Decode(&user)
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"message": "User not found"})

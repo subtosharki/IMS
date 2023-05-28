@@ -10,9 +10,11 @@ type UpdateNotesRequest struct {
 }
 
 type CreateUserRequest struct {
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required"`
-	Admin    bool   `json:"admin" validate:"required"`
+	Email     string `json:"email" validate:"required,email"`
+	FirstName string `json:"firstName" validate:"required"`
+	LastName  string `json:"lastName" validate:"required"`
+	Password  string `json:"password" validate:"required"`
+	Admin     bool   `json:"admin" validate:"required"`
 }
 
 type APIKeyRequest struct {
@@ -20,7 +22,8 @@ type APIKeyRequest struct {
 }
 
 type SetStatusRequest struct {
-	Status string `json:"status" validate:"required"`
+	Status     string `json:"status" validate:"required"`
+	VoidReason string `json:"voidReason"`
 }
 
 type CreateCloneRequest struct {
