@@ -1,0 +1,18 @@
+{
+  "name": "ims",
+  "version": "1.0.0",
+  "description": "a system to manage and track clones in real time",
+  "scripts": {
+    "start-ui": "yarn workspace @ims/client build && yarn workspace @ims/client start",
+    "start-api": "yarn workspace @ims/api build && yarn workspace @ims/api start"
+  },
+  "private": true,
+  "workspaces": ["apps/**"],
+  "repository": "git+https://github.com/subtosharki/IMS.git",
+  "author": "subtosharki",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/subtosharki/IMS/issues"
+  },
+  "homepage": "https://github.com/subtosharki/IMS#readme"
+}

@@ -1,0 +1,142 @@
+<script lang="ts">
+	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
+	import { getOrders } from '$lib/functions/orders/getOrders';
+	import { setOrderStatus } from '$lib/functions/orders/setOrderStatus';
+	import { updateOrderNotes } from '$lib/functions/orders/updateOrderNotes';
+	import { downloadOrders } from '$lib/functions/orders/downloadOrders';
+	import type { Order, User } from '$lib/types';
+
+	export let data: App.PageData;
+	let orders: Order[] = [],
+		voidedOrders: Order[] = [],
+		seeVoided = false,
+		user =
+			data.user ||
+			({
+				admin: false,
+				email: '',
+				apikey: ''
+			} as User);
+
+	async function loadOrders() {
+		orders = await getOrders(user.apikey, data.fetch!);
+		voidedOrders = orders.filter((order) => order.status !== 'In Progress');
+		orders = orders.filter((order) => order.status === 'In Progress');
+	}
+	onMount(async () => {
+		await loadOrders();
+	});
+</script>
+
+<svelte:head>
+	<title>Orders</title>
+	<meta name="description" content="View Orders" />
+</svelte:head>
+
+<main>
+	<button on:click={async () => await goto('./')}>Back</button>
+	<h1>{!seeVoided ? 'Pending Orders' : 'Fulfilled/Voided Orders'}</h1>
+	<p>Welcome, {user.email} to the orders page</p>
+	<button on:click={() => (seeVoided = !seeVoided)}
+		>{!seeVoided ? 'View Fulfilled/Voided Orders' : 'View Pending Orders'}</button
+	>
+	{#if user.admin}
+		<button on:click={async () => await downloadOrders(document, user.apikey, data.fetch)}
+			>Download Order Logs</button
+		>
+	{/if}
+	<table>
+		<thead>
+			<tr>
+				<th>Use</th>
+				<th>Customer Name</th>
+				<th>Placed By</th>
+				<th>Date Placed</th>
+				<th>Date Due</th>
+				<th>PO No.</th>
+				<th>Cultivar - Quantity</th>
+				<th>Status</th>
+				<th>Change Status</th>
+				<th>Order Notes</th>
+			</tr>
+		</thead>
+		<tbody>
+			{#each !seeVoided ? orders : voidedOrders as order}
+				<tr>
+					<td>{order.use}</td>
+					<td>{order.customerName}</td>
+					<td>{order.placedBy}</td>
+					<td>{order.datePlaced}</td>
+					<td>{order.dateRequired}</td>
+					<td>{order.orderNumber}</td>
+					<td>{order.clones.map((clone) => clone.name + ' - ' + clone.quantity)}</td>
+					<td>{order.status}</td>
+					<td>
+						<select
+							id="status"
+							on:change={async (e) => {
+								await setOrderStatus(order.orderNumber, e.target.value, user.apikey, data.fetch);
+								await loadOrders();
+							}}
+						>
+							{#each ['In Progress', 'Fulfilled', 'Voided'] as status}
+								<option value={status} selected={order.status === status}>{status}</option>
+							{/each}
+						</select>
+					</td>
+					<td
+						><textarea
+							id="notes"
+							bind:value={order.notes}
+							on:change={async () =>
+								await updateOrderNotes(order.orderNumber, order.notes, user.apikey, data.fetch)}
+						/>
+					</td>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
+</main>
+
+<style>
+	main {
+		padding: 1rem;
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	th,
+	td {
+		padding: 0.25rem;
+		border: 1px solid #ccc;
+	}
+
+	th {
+		background: #eee;
+	}
+
+	tr:nth-child(even) {
+		background: #fafafa;
+	}
+
+	tr:hover {
+		background: #f4f4f4;
+	}
+
+	button {
+		background-color: #4caf50;
+		border: none;
+		color: white;
+		padding: 15px 32px;
+		margin: 4px 2px;
+		cursor: pointer;
+	}
+
+	td {
+		text-align: center;
+	}
+</style>
