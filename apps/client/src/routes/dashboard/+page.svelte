@@ -14,8 +14,16 @@
 				apikey: '',
 				role: ''
 			} as User);
+
 	onMount(async () => {
 		clones = await getClones(user.apikey, data.fetch!);
+		clones.sort((a, b) => {
+			if (a.date.split('/')[1] > b.date.split('/')[1]) return 1;
+			if (a.date.split('/')[1] < b.date.split('/')[1]) return -1;
+			if (a.date.split('/')[0] > b.date.split('/')[0]) return 1;
+			if (a.date.split('/')[0] < b.date.split('/')[0]) return -1;
+			return 0;
+		})
 	});
 </script>
 

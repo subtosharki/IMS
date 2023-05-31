@@ -7,17 +7,19 @@
 	import { getClones } from '$lib/functions/clones/getClones';
 	import { getCustomerNames } from '$lib/functions/customers/getCustomerNames';
 
-	export let data: App.PageData;
+	export let data;
 	let clones: Clone[] = [],
 		user = data.user || ({ apikey: '' } as User),
 		customerName = '',
 		use = '',
 		dateRequired = '',
 		placedOrder = '' as Order,
-		notes = '';
+		notes = '',
+			customers = [] as string[];
 
 	onMount(async () => {
 		clones = await getClones(user.apikey, data.fetch!);
+		customers = await getCustomerNames(user.apikey, data.fetch!);
 	});
 
 	async function handleOrder() {
@@ -81,8 +83,15 @@
 	{/if}
 	<h1>Place an order</h1>
 	<form on:submit|preventDefault={async () => await handleOrder()}>
-		<label for="name">Customer Purchasing</label>
-		<input id="name" type="text"/>
+		<label for="name">Customer Purchasing
+			<br>
+			<input list="name" />
+		</label>
+		<datalist id="name">
+			{#each customers as customer}
+				<option label={customer}>{customer}</option>
+			{/each}
+		</datalist>
 
 
 		<label for="use">Med or AU</label>
@@ -121,6 +130,17 @@
 								id="clone-{clone.id}"
 								placeholder="0"
 								bind:value={clone.selectedQuantity}
+								on:change={async() => {
+									if(clone.selectedQuantity === 0) {
+										clones = await getClones(user.apikey, data.fetch);
+									} else {
+									clones = clones.filter((c) => {
+										if (getMonthName(Number(c.date.split('/')[0])) === getMonthName(Number(clone.date.split('/')[0])) && c.date.split('/')[1] === clone.date.split('/')[1]) {
+											return clone;
+										}
+									});
+									}
+								}}
 							/>
 						</td>
 					</tr>

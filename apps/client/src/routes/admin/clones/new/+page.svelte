@@ -3,7 +3,7 @@
 	import { createClone } from '$lib/functions/clones/createClone';
 	import type { User } from '$lib/types';
 
-	export let data: App.PageData;
+	export let data;
 	let name,
 		quantity,
 		msg = '',
@@ -44,7 +44,6 @@
 	<button on:click={async () => await goto('./')}>Back</button>
 	<p>Add Clone Page</p>
 	<h2>{msg}</h2>
-
 	<form on:submit|preventDefault={async () => await handleSubmit()}>
 		<label for="name">Clone Name</label>
 		<input type="text" id="name" name="name" bind:value={name} />
@@ -53,7 +52,7 @@
 		<input type="date" id="month" name="name" bind:value={date} />
 
 		<label for="quantity">Quantity</label>
-		<input type="number" id="quantity" name="quantity" bind:value={quantity} />
+		<input type="number" id="quantity" name="quantity" bind:value={quantity} min="0"/>
 		<button type="submit">Add Clone</button>
 	</form>
 </main>

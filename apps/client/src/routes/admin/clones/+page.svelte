@@ -8,7 +8,7 @@
 	import { getMonthName } from '$lib/functions/getMonthName';
 	import type { Clone, User } from '$lib/types';
 
-	export let data: App.PageData;
+	export let data;
 	let clones: Clone[] = [],
 		user =
 			data.user ||
@@ -17,7 +17,14 @@
 			} as User);
 
 	onMount(async () => {
-		clones = await getClones(user.apikey, data.fetch!);
+		clones = await getClones(user.apikey, data.fetch);
+		clones.sort((a, b) => {
+			if (a.date.split('/')[1] > b.date.split('/')[1]) return 1;
+			if (a.date.split('/')[1] < b.date.split('/')[1]) return -1;
+			if (a.date.split('/')[0] > b.date.split('/')[0]) return 1;
+			if (a.date.split('/')[0] < b.date.split('/')[0]) return -1;
+			return 0;
+		})
 	});
 </script>
 
@@ -30,7 +37,7 @@
 	<h1>Manage Clones</h1>
 	<p>Manage Clones Page</p>
 	<button on:click={async () => await goto('./')}>Back</button>
-	<button on:click={async () => await goto('/clones/new')}>Create New Clone</button>
+	<button on:click={async () => await goto('clones/new')}>Create New Clone</button>
 
 	<table>
 		<tr>
