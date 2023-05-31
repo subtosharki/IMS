@@ -85,7 +85,7 @@
 	<form on:submit|preventDefault={async () => await handleOrder()}>
 		<label for="name">Customer Purchasing
 			<br>
-			<input list="name" />
+			<input list="name" bind:value={customerName} />
 		</label>
 		<datalist id="name">
 			{#each customers as customer}
