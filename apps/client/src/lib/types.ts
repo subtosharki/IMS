@@ -33,16 +33,16 @@ export interface OrderClone extends Clone {
 }
 
 export interface Order {
-	cloneId: string;
-	use: string;
-	customerName: string;
-	datePlaced: string;
-	dateRequired: string;
-	orderNumber: string;
-	clones: Clone[];
-	status: string;
-	notes: string;
-	placedBy: string;
+	'cloneId': string;
+	'use': string;
+	'customerName': string;
+	'datePlaced': string;
+	'dateRequired': string;
+	'orderNumber': string;
+	'clones': Clone[];
+	'status': string;
+	'notes': string;
+	'placedBy': string;
 }
 
 export interface Customer {

@@ -9,9 +9,9 @@ export const load = (async ({ fetch }) => {
 	if (browser && localStorage.getItem('apikey')) {
 		try {
 			const user = await getUserByAPIKey(
-					AES.decrypt(localStorage.getItem('apikey') as string, ENCRYPTION_KEY).toString(enc.Utf8),
-					fetch
-				)
+				AES.decrypt(localStorage.getItem('apikey') as string, ENCRYPTION_KEY).toString(enc.Utf8),
+				fetch
+			);
 			if (!user) {
 				localStorage.removeItem('apikey');
 			} else {

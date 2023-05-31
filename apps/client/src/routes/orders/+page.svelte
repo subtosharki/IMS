@@ -85,7 +85,7 @@
 										 return
 									 }
 									 if(order.notes === '') {
-									 await updateOrderNotes(order.orderNumber, order.notes + 'Voided by: ' + user.email + ' for: \n\n' + reason, user.apikey, data.fetch)
+									 	await updateOrderNotes(order.orderNumber, order.notes + 'Voided by: ' + user.email + ' for: \n\n' + reason, user.apikey, data.fetch)
 									 } else {
 										await updateOrderNotes(order.orderNumber, order.notes + '\n\nVoided by: ' + user.email + ' for: \n\n' + reason, user.apikey, data.fetch)
 									 }
@@ -93,7 +93,6 @@
 								await setOrderStatus(order.orderNumber, e.target.value, user.apikey, data.fetch, reason)
 								await loadOrders();
 								} else {
-								await setOrderStatus(order.orderNumber, e.target.value, user.apikey, data.fetch);
 								await loadOrders();
 							}}}
 						>
