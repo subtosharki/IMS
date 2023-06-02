@@ -2,6 +2,7 @@ import { getOrders } from '$lib/functions/orders/getOrders';
 import type {Clone} from "$lib/types";
 
 export async function downloadOrders(
+	document: Document,
 	apikey: string,
 	fetch: typeof window.fetch
 ) {
@@ -14,7 +15,7 @@ export async function downloadOrders(
 	for(const order of orders) {
 		csv += '\n';
 		for(const key of keys) {
-			if(key === 'clones') {
+			if((order as any)[key] === 'clones') {
 				csv += (order as any)[key].map((clone: Clone) => clone.name).join(';') + ',';
 				continue;
 			}

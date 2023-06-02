@@ -89,11 +89,11 @@
 									 } else {
 										await updateOrderNotes(order.orderNumber, order.notes + '\n\nVoided by: ' + user.email + ' for: \n\n' + reason, user.apikey, data.fetch)
 									 }
-									 await updateOrderNotes(order.orderNumber, order.notes + 'Voided by: ' + user.email + ' for: \n\n' + reason, user.apikey, data.fetch)
-								await setOrderStatus(order.orderNumber, e.target.value, user.apikey, data.fetch, reason)
-								await loadOrders();
+									await setOrderStatus(order.orderNumber, e.target.value, user.apikey, data.fetch, reason)
+									await loadOrders();
 								} else {
-								await loadOrders();
+									await setOrderStatus(order.orderNumber, e.target.value, user.apikey, data.fetch)
+									await loadOrders();
 							}}}
 						>
 
@@ -109,8 +109,12 @@
 						><textarea
 							id="notes"
 							bind:value={order.notes}
-							on:change={async () =>
-								await updateOrderNotes(order.orderNumber, order.notes, user.apikey, data.fetch)}
+							on:change={async () => {
+								if(order.notes === '') {
+								await updateOrderNotes(order.orderNumber, '', user.apikey, data.fetch)
+								} else {
+								await updateOrderNotes(order.orderNumber, order.notes, user.apikey, data.fetch)
+							}}}
 						rows="5"/>
 					</td>
 				</tr>

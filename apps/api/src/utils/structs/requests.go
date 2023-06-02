@@ -6,7 +6,7 @@ type LoginRequest struct {
 }
 
 type UpdateNotesRequest struct {
-	Notes string `json:"notes" validate:"required"`
+	Notes string `json:"notes"`
 }
 
 type CreateUserRequest struct {

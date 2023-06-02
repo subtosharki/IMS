@@ -1,11 +1,15 @@
 import { API_URL } from '$lib/constants';
 
-export async function toggleAdmin(id: string, apikey: string, fetch: typeof window.fetch) {
+export async function toggleAdmin(
+	id: string,
+	apikey: string,
+	fetch: typeof window.fetch
+) {
 	const res = await fetch(API_URL + '/users/' + id + '/admin', {
 		method: 'PUT',
 		headers: {
-			apikey
-		}
+			apikey,
+		},
 	});
 	if (res.status === 400) {
 		throw 'Bad request';

@@ -11,13 +11,13 @@ export async function createClone(
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			apikey
+			apikey,
 		},
 		body: JSON.stringify({
 			name,
 			quantity,
-			date
-		})
+			date,
+		}),
 	});
 	if (res.status === 400) {
 		throw 'Bad request';

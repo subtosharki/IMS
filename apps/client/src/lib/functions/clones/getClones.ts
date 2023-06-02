@@ -6,8 +6,8 @@ export async function getClones(apikey: string, fetch: typeof window.fetch) {
 	try {
 		res = await fetch(API_URL + '/clones', {
 			headers: {
-				apikey
-			}
+				apikey,
+			},
 		});
 	} catch (e) {
 		throw 'Error connecting to server';

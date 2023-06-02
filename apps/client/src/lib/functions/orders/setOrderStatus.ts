@@ -14,12 +14,12 @@ export async function setOrderStatus(
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
-				apikey
+				apikey,
 			},
 			body: JSON.stringify({
 				status,
-				voidReason: reason
-			})
+				voidReason: reason,
+			}),
 		});
 	} catch (e) {
 		throw 'Error connecting to server';
