@@ -10,7 +10,10 @@ export const load = (async ({ fetch }) => {
 		if (!localStorage.getItem('apikey')) await goto('/');
 		try {
 			const user = await getUserByAPIKey(
-				AES.decrypt(localStorage.getItem('apikey') as string, ENCRYPTION_KEY).toString(enc.Utf8),
+				AES.decrypt(
+					localStorage.getItem('apikey') as string,
+					ENCRYPTION_KEY
+				).toString(enc.Utf8),
 				fetch
 			);
 			return { user, fetch };

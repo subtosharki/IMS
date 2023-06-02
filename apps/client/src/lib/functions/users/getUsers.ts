@@ -6,8 +6,8 @@ export async function getUsers(apikey: string, fetch: typeof window.fetch) {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
-			apikey
-		}
+			apikey,
+		},
 	});
 	if (res.status === 400) {
 		throw 'Bad request';

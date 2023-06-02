@@ -6,11 +6,11 @@ const config = {
 	preprocess: vitePreprocess(),
 
 	kit: {
-		adapter: adapter()
+		adapter: adapter(),
 	},
 	compilerOptions: {
-		sourcemap: true
-	}
+		sourcemap: true,
+	},
 };
 
 export default config;

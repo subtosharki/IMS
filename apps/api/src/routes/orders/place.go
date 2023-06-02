@@ -39,6 +39,9 @@ func Place(c *fiber.Ctx) error {
 	collection := mongodb.Collection("orders")
 	user := c.Locals("user").(*structs.User)
 
+	//add checking to see if order from customer already came in today
+	//if it did, add increasing number in order number
+
 	_, err = collection.InsertOne(context.Background(), bson.M{
 		"cloneId":      uuid.New().String(),
 		"use":          bodyRequest.Use,

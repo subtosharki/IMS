@@ -5,8 +5,8 @@ export async function getOrders(apikey: string, fetch: typeof window.fetch) {
 	const res = await fetch(API_URL + '/orders', {
 		method: 'GET',
 		headers: {
-			apikey
-		}
+			apikey,
+		},
 	});
 	if (!res.ok) throw 'Error getting orders';
 	return (await res.json()) as Order[];

@@ -1,11 +1,15 @@
 import { API_URL } from '$lib/constants';
 
-export async function deleteClone(id: string, apikey: string, fetch: typeof window.fetch) {
+export async function deleteClone(
+	id: string,
+	apikey: string,
+	fetch: typeof window.fetch
+) {
 	const res = await fetch(API_URL + `/clones/${id}/delete`, {
 		method: 'DELETE',
 		headers: {
-			apikey
-		}
+			apikey,
+		},
 	});
 	if (res.status === 400) {
 		throw 'Bad request';

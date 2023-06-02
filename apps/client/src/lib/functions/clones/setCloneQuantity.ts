@@ -9,8 +9,8 @@ export async function setCloneQuantity(
 	const res = await fetch(API_URL + `/clones/${id}/quantity/${quantity}`, {
 		method: 'PUT',
 		headers: {
-			apikey
-		}
+			apikey,
+		},
 	});
 	if (res.status === 400) {
 		throw 'Bad request';

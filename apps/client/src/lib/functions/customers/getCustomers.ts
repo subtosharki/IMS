@@ -7,8 +7,8 @@ export async function getCustomers(apikey: string, fetch: typeof window.fetch) {
 		res = await fetch(API_URL + '/customers', {
 			method: 'GET',
 			headers: {
-				apikey
-			}
+				apikey,
+			},
 		});
 	} catch (e) {
 		throw 'Error connecting to server';
