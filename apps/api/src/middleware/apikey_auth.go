@@ -26,7 +26,7 @@ func APIKeyAuth(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "Invalid API key"})
 	}
-
+	
 	c.Locals("user", user)
 	return c.Next()
 

@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { login } from '$lib/functions/auth';
 	import { goto } from '$app/navigation';
-	import { AES } from 'crypto-js';
-	import { ENCRYPTION_KEY } from '$lib/constants';
+	import {encrypt} from "$lib/functions/crpyt.js";
 
 	export let data;
 	let email,
@@ -23,7 +22,7 @@
 		}
 		try {
 			const apikey = await login(email, password, data.fetch);
-			localStorage.setItem('apikey', AES.encrypt(apikey, ENCRYPTION_KEY).toString());
+			localStorage.setItem('apikey', encrypt(apikey));
 			await goto('/dashboard');
 		} catch (err) {
 			setError(err);

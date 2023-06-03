@@ -6,18 +6,17 @@
 	import { updateOrderNotes } from '$lib/functions/orders/updateOrderNotes';
 	import { downloadOrders } from '$lib/functions/orders/downloadOrders';
 	import type { Order, User } from '$lib/types';
+	import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
+	import {decrypt} from "$lib/functions/crpyt";
 
 	export let data
 	let orders: Order[] = [],
 		voidedOrders: Order[] = [],
 		seeVoided = false,
-		user =
-			data.user ||
-			({
-				role: '',
+			user = {
 				email: '',
-				apikey: ''
-			} as User);
+				role: ''
+			} as User
 
 	async function loadOrders() {
 		orders = await getOrders(user.apikey, data.fetch!);
@@ -25,6 +24,7 @@
 		orders = orders.filter((order) => order.status === 'In Progress');
 	}
 	onMount(async () => {
+		user = await getUserByAPIKey(decrypt(data.apikey), data.fetch)
 		await loadOrders();
 	});
 </script>

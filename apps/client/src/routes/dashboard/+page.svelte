@@ -4,18 +4,18 @@
 	import { getClones } from '$lib/functions/clones/getClones';
 	import { getMonthName } from '$lib/functions/getMonthName.js';
 	import type { Clone, User } from '$lib/types';
+	import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
+	import {decrypt} from "$lib/functions/crpyt";
 
 	export let data;
 	let clones: Clone[] = [],
-		user =
-			data.user ||
-			({
-				email: '',
-				apikey: '',
-				role: ''
-			} as User);
-
+		user = {
+			email: '',
+			apikey: '',
+			role: ''
+		} as User;
 	onMount(async () => {
+		user = await getUserByAPIKey(decrypt(data.apikey), data.fetch!)
 		clones = await getClones(user.apikey, data.fetch!);
 		clones.sort((a, b) => {
 			if (a.date.split('/')[1] > b.date.split('/')[1]) return 1;

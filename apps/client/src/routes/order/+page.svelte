@@ -6,10 +6,12 @@
 	import type { Clone, Order, OrderClone, User } from '$lib/types';
 	import { getClones } from '$lib/functions/clones/getClones';
 	import { getCustomerNames } from '$lib/functions/customers/getCustomerNames';
+	import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
+	import {decrypt} from "$lib/functions/crpyt";
 
 	export let data;
 	let clones: Clone[] = [],
-		user = data.user || ({ apikey: '' } as User),
+		user = { apikey: '' } as User,
 		customerName = '',
 		use = '',
 		dateRequired = '',
@@ -18,6 +20,7 @@
 			customers = [] as string[];
 
 	onMount(async () => {
+		user = await getUserByAPIKey(decrypt(data.apikey), data.fetch!)
 		clones = await getClones(user.apikey, data.fetch!);
 		customers = await getCustomerNames(user.apikey, data.fetch!);
 	});

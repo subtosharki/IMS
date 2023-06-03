@@ -1,13 +1,20 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import type { User } from '$lib/types';
+	import {decrypt} from "$lib/functions/crpyt";
+	import type {User} from "$lib/types";
+	import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
+	import { onMount } from 'svelte';
 
-	export let data: App.PageData;
+	export let data;
 	let user =
-		data.user ||
-		({
+			({
 			email: ''
-		} as User);
+		}) as User;
+
+		onMount(async () => {
+			user = await getUserByAPIKey(decrypt(data.apikey), data.fetch!)
+		});
+
 </script>
 
 <svelte:head>

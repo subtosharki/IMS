@@ -5,12 +5,15 @@
 	import { goto } from '$app/navigation';
 	import { deleteCustomer } from '$lib/functions/customers/deleteCustomer';
 	import { updateCustomerNotes } from '$lib/functions/customers/updateCustomerNotes';
+	import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
+	import {decrypt} from "$lib/functions/crpyt";
 
-	export let data: App.PageData;
+	export let data;
 	let customers = [] as Customer[],
-		user = data.user as User;
+		user = {} as User;
 
 	onMount(async () => {
+		user = await getUserByAPIKey(decrypt(data.apikey!), data.fetch!)
 		customers = await getCustomers(user.apikey, data.fetch!);
 		console.log(customers);
 	});
