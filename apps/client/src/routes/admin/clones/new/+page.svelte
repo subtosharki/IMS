@@ -2,17 +2,24 @@
 	import { goto } from '$app/navigation';
 	import { createClone } from '$lib/functions/clones/createClone';
 	import type { User } from '$lib/types';
+	import {decrypt} from "$lib/functions/crpyt";
+	import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
+	import {onMount} from "svelte";
 
 	export let data;
 	let name,
 		quantity,
 		msg = '',
 		user =
-			data.user ||
-			({
+			{
 				apikey: ''
-			} as User),
+			} as User,
 		date;
+
+	onMount(async () => {
+		user = await getUserByAPIKey(decrypt(data.apikey), data.fetch!);
+	});
+
 	async function handleSubmit() {
 		if (!name || !quantity || !date) {
 			setError('Please enter a name, quantity and date');

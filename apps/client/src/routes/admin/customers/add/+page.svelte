@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { createCustomer } from '$lib/functions/customers/createCustomer';
+	import type {User} from "$lib/types";
+	import {onMount} from "svelte";
+	import {decrypt} from "$lib/functions/crpyt";
+	import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
 
-	export let data: App.PageData;
+	export let data;
 	let email,
 		name,
 		subscriptionId,
@@ -12,9 +16,14 @@
 		zip,
 		address,
 		msg = '',
-		user = data.user || {
+		user = {
 			apikey: ''
-		};
+		} as User;
+
+	onMount(async () => {
+		user = await getUserByAPIKey(decrypt(data.apikey), data.fetch);
+	});
+
 	async function handleSubmit() {
 		if (!email || !name || !subscriptionId || !phone || !address || !city || !zip || !state) {
 			setError('Please fill out all fields');

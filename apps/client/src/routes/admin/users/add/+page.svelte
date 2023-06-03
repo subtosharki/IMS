@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { createUser } from '$lib/functions/users/createUser';
 	import { goto } from '$app/navigation';
+	import type {User} from "$lib/types";
+	import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
+	import {decrypt} from "$lib/functions/crpyt";
+	import {onMount} from "svelte";
 
 	export let data;
 	let email,
@@ -8,9 +12,13 @@
 		password,
 		admin,
 		errMsg = '',
-		user = data.user || {
+		user =  {
 			apikey: ''
-		};
+		} as User;
+	onMount(async () => {
+		user = await getUserByAPIKey(decrypt(data.apikey), data.fetch)
+	});
+
 	async function handleSubmit() {
 		if (!email || !password) {
 			setError('Please enter an email and password');
