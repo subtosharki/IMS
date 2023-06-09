@@ -34,6 +34,8 @@
 			return;
 		}
 
+		dateRequired = dateRequired.split('-')[1] + '-' + dateRequired.split('-')[2] + '-' + dateRequired.split('-')[0];
+
 		const order = {
 			customerName,
 			use,
@@ -66,7 +68,7 @@
 </svelte:head>
 
 <main>
-	<button on:click={async () => await goto('./')}>Back</button>
+	<button on:click={async () => await goto('/dashboard')}>Back</button>
 	{#if placedOrder}
 		<h2>Order Placed</h2>
 		<p>Order ID: {placedOrder.orderNumber}</p>
@@ -86,15 +88,16 @@
 			<br>
 			<input list="name" bind:value={customerName} />
 		</label>
-		<datalist id="name">
+		<datalist id="name" >
 			{#each customers as customer}
 				<option label={customer}>{customer}</option>
 			{/each}
-		</datalist>
+		</datalist >
 
 
 		<label for="use">Med or AU</label>
-		<select id="use" bind:value={use}>
+		<select id="use" bind:value={use} required>
+			<option disabled selected hidden label="Choose an option"></option>
 			<option label="Medical">Medical</option>
 			<option label="Adult Use">Adult Use</option>
 		</select>

@@ -8,6 +8,7 @@
 	import type { Order, User } from '$lib/types';
 	import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
 	import {decrypt} from "$lib/functions/crpyt";
+	import { getMonthName } from '$lib/functions/getMonthName';
 
 	export let data
 	let orders: Order[] = [],
@@ -35,7 +36,7 @@
 </svelte:head>
 
 <main>
-	<button on:click={async () => await goto('./')}>Back</button>
+	<button on:click={async () => await goto('/dashboard')}>Back</button>
 	<h1>{!seeVoided ? 'Pending Orders' : 'Fulfilled/Voided Orders'}</h1>
 	<p>Welcome, {user.email} to the orders page</p>
 	<button on:click={() => (seeVoided = !seeVoided)}
@@ -55,7 +56,8 @@
 				<th>Date Placed</th>
 				<th>Date Due</th>
 				<th>PO No.</th>
-				<th>Cultivar - Quantity</th>
+				<th>Strain - Quantity</th>
+				<th>Strain Release Date</th>
 				<th>Status</th>
 				<th>Change Status</th>
 				<th>Order Notes</th>
@@ -71,6 +73,7 @@
 					<td>{order.dateRequired}</td>
 					<td>{order.orderNumber}</td>
 					<td>{order.clones.map((clone) => clone.name + ' - ' + clone.quantity)}</td>
+					<td>{getMonthName(Number(order.clones[0].date.split('/')[0])) + ' - ' + order.clones[0].date.split('/')[1]}</td>
 					<td>{order.status}</td>
 					<td>
 						<select
