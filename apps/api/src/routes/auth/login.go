@@ -28,7 +28,7 @@ func Login(c *fiber.Ctx) error {
 		"password": bodyRequest.Password,
 	}).Decode(&user)
 	if err != nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "Invalid credentials"})
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "Invalid credentials", "error": err.Error()})
 	}
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"apikey": user.APIKey})
 }
