@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "the api for ims",
   "scripts": {
-    "build": "make",
+    "build": "cd src && go build -o ../bin/api -ldflags=\"-s -w\"",
     "start": "./bin/api",
-    "run": "make run"
+    "run": "cd src && go run main.go"
   },
   "author": "subtosharki",
   "license": "MIT"

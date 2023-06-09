@@ -12,9 +12,9 @@ export async function createCustomer(
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				apikey
+				apikey,
 			},
-			body: JSON.stringify(body)
+			body: JSON.stringify(body),
 		});
 	} catch (e) {
 		throw 'Error connecting to server';

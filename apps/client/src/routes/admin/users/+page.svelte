@@ -5,16 +5,18 @@
 	import { toggleAdmin } from '$lib/functions/users/toggleAdmin';
 	import { deleteUser } from '$lib/functions/users/deleteUser';
 	import type { User } from '$lib/types';
+	import {decrypt} from "$lib/functions/crpyt";
+	import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
 
 	export let data;
 	let users: User[] = [],
 		user =
-			data.user ||
-			({
+			{
 				apikey: ''
-			} as User);
+			} as User;
 
 	onMount(async () => {
+		user = await getUserByAPIKey(decrypt(data.apikey), data.fetch!)
 		users = await getUsers(user.apikey, data.fetch!);
 	});
 </script>

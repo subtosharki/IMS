@@ -1,23 +1,12 @@
 import { goto } from '$app/navigation';
 import type { PageLoad } from './$types';
-import { getUserByAPIKey } from '$lib/functions/users/getUserByAPIKey';
 import { browser } from '$app/environment';
-import { AES, enc } from 'crypto-js';
-import { ENCRYPTION_KEY } from '$lib/constants';
 
 export const load = (async ({ fetch }) => {
+	let apikey;
 	if (browser) {
-		if (!localStorage.getItem('apikey')) await goto('/');
-		try {
-			const user = await getUserByAPIKey(
-				AES.decrypt(localStorage.getItem('apikey') as string, ENCRYPTION_KEY).toString(enc.Utf8),
-				fetch
-			);
-			if (user.role !== 'admin') await goto('/dashboard');
-			return { user, fetch };
-		} catch (e) {
-			localStorage.removeItem('apikey');
-			await goto('/');
-		}
+		apikey = localStorage.getItem('apikey');
+		if (!apikey) return goto('/');
 	}
+	return { apikey, fetch };
 }) satisfies PageLoad;

@@ -1,7 +1,10 @@
 import { API_URL } from '$lib/constants';
 import type { User } from '$lib/types';
 
-export async function getUserByAPIKey(apikey: string, fetch: typeof window.fetch) {
+export async function getUserByAPIKey(
+	apikey: string,
+	fetch: typeof window.fetch
+) {
 	let res: Response;
 	try {
 		res = await fetch(API_URL + '/users/' + apikey);

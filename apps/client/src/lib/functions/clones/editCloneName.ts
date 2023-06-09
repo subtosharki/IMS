@@ -12,9 +12,9 @@ export async function editCloneName(
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
-				apikey
+				apikey,
 			},
-			body: JSON.stringify({ name })
+			body: JSON.stringify({ name }),
 		});
 	} catch (e) {
 		throw 'Error connecting to server';

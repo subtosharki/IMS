@@ -1,11 +1,14 @@
 import { API_URL } from '$lib/constants';
 
-export async function getCustomerNames(apikey: string, fetch: typeof window.fetch) {
+export async function getCustomerNames(
+	apikey: string,
+	fetch: typeof window.fetch
+) {
 	const res = await fetch(API_URL + '/customers/names', {
 		method: 'GET',
 		headers: {
-			apikey
-		}
+			apikey,
+		},
 	});
 	if (res.status === 400) {
 		throw 'Bad request';

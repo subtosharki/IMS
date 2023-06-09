@@ -1,14 +1,18 @@
 import { API_URL } from '$lib/constants';
 
-export async function login(email: string, password: string, fetch: typeof window.fetch) {
+export async function login(
+	email: string,
+	password: string,
+	fetch: typeof window.fetch
+) {
 	let res: Response;
 	try {
 		res = await fetch(API_URL + '/auth/login', {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ email, password })
+			body: JSON.stringify({ email, password }),
 		});
 	} catch (e) {
 		throw 'Error connecting to server';

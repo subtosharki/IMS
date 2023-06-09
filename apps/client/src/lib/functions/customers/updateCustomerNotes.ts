@@ -12,11 +12,11 @@ export async function updateCustomerNotes(
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
-				apikey
+				apikey,
 			},
 			body: JSON.stringify({
-				notes
-			})
+				notes,
+			}),
 		});
 	} catch (e) {
 		throw 'Error connecting to server';
