@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"inventory-api/src/utils/structs"
-	"strconv"
+	strconv "strconv"
 	"time"
 )
 
@@ -32,11 +32,32 @@ func Place(c *fiber.Ctx) error {
 		}
 	}
 	bodyRequest.DatePlaced = time.Now().Format("01-02-2006")
-	bodyRequest.OrderNumber = strconv.Itoa(int(time.Now().Month())) + "-" + strconv.Itoa(time.Now().Day()) + "-" + strconv.Itoa(time.Now().Year()) + "-" + newName
 	bodyRequest.Status = "In Progress"
+	bodyRequest.OrderNumber = strconv.Itoa(int(time.Now().Month())) + "-" + strconv.Itoa(time.Now().Day()) + "-" + strconv.Itoa(time.Now().Year()) + "-" + newName
 
 	mongodb := c.Locals("mongo").(*mongo.Database)
 	collection := mongodb.Collection("orders")
+
+	err = collection.FindOne(context.Background(), bson.M{"orderNumber": bodyRequest.OrderNumber}).Decode(&bodyRequest)
+	if err == nil {
+		bodyRequest.OrderNumber = strconv.Itoa(int(time.Now().Month())) + "-" + strconv.Itoa(time.Now().Day()) + "-" + strconv.Itoa(time.Now().Year()) + "-" + strconv.Itoa(1) + "-" + newName
+		err = collection.FindOne(context.Background(), bson.M{"orderNumber": bodyRequest.OrderNumber}).Decode(&bodyRequest)
+		if err == nil {
+			newErr := true
+			uppedNumber := 1
+			for newErr {
+				bodyRequest.OrderNumber = strconv.Itoa(int(time.Now().Month())) + "-" + strconv.Itoa(time.Now().Day()) + "-" + strconv.Itoa(time.Now().Year()) + "-" + strconv.Itoa(uppedNumber) + "-" + newName
+				err = collection.FindOne(context.Background(), bson.M{"orderNumber": bodyRequest.OrderNumber}).Decode(&bodyRequest)
+				if err != nil {
+					newErr = false
+					break
+				}
+				uppedNumber++
+			}
+			bodyRequest.OrderNumber = strconv.Itoa(int(time.Now().Month())) + "-" + strconv.Itoa(time.Now().Day()) + "-" + strconv.Itoa(time.Now().Year()) + "-" + strconv.Itoa(uppedNumber) + "-" + newName
+		}
+	}
+
 	user := c.Locals("user").(*structs.User)
 
 	_, err = collection.InsertOne(context.Background(), bson.M{

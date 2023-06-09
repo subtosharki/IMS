@@ -23,10 +23,6 @@
 	});
 
 	async function handleOrder() {
-		if (use === 'Choose an option') {
-			alert('Please select a use');
-			return;
-		}
 		const selectedClones = clones.filter(
 			(clone: OrderClone) => clone.selectedQuantity > 0
 		) as OrderClone[];
@@ -96,7 +92,6 @@
 
 		<label for="use">Med or AU</label>
 		<select id="use" bind:value={use}>
-			<option label="Choose an option">Choose an option</option>
 			<option label="Medical">Medical</option>
 			<option label="Adult Use">Adult Use</option>
 		</select>

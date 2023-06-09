@@ -42,7 +42,7 @@
 		>{!seeVoided ? 'View Fulfilled/Voided Orders' : 'View Pending Orders'}</button
 	>
 	{#if user.role.includes('admin')}
-		<button on:click={async () => await downloadOrders(document, user.apikey, data.fetch)}
+		<button on:click={async () => await downloadOrders(user.apikey, data.fetch)}
 			>Download Order Logs</button
 		>
 	{/if}
