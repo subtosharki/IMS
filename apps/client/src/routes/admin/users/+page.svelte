@@ -5,7 +5,7 @@
 	import { toggleAdmin } from '$lib/functions/users/toggleAdmin';
 	import { deleteUser } from '$lib/functions/users/deleteUser';
 	import type { User } from '$lib/types';
-	import {decrypt} from "$lib/functions/crpyt";
+	import {decrypt} from "$lib/functions/utils/crpyt";
 	import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
 
 	export let data;

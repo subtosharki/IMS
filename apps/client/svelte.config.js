@@ -7,9 +7,9 @@ const config = {
 
 	kit: {
 		adapter: adapter(),
-	},
-	compilerOptions: {
-		sourcemap: true,
+		files: {
+			assets: 'static',
+		},
 	},
 };
 

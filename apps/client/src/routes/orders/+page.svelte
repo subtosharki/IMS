@@ -7,8 +7,8 @@
 	import { downloadOrders } from '$lib/functions/orders/downloadOrders';
 	import type { Order, User } from '$lib/types';
 	import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
-	import {decrypt} from "$lib/functions/crpyt";
-	import { getMonthName } from '$lib/functions/getMonthName';
+	import {decrypt} from "$lib/functions/utils/crpyt";
+	import { getMonthName } from '$lib/functions/utils/getMonthName';
 
 	export let data
 	let orders: Order[] = [],

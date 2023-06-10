@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import {decrypt} from "$lib/functions/crpyt";
+	import {decrypt} from "$lib/functions/utils/crpyt";
 	import type {User} from "$lib/types";
 	import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
 	import { onMount } from 'svelte';

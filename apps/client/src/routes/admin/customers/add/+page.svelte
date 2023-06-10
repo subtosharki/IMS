@@ -3,7 +3,7 @@
 	import { createCustomer } from '$lib/functions/customers/createCustomer';
 	import type {User} from "$lib/types";
 	import {onMount} from "svelte";
-	import {decrypt} from "$lib/functions/crpyt";
+	import {decrypt} from "$lib/functions/utils/crpyt";
 	import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
 
 	export let data;

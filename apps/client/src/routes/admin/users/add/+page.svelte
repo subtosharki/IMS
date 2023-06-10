@@ -3,7 +3,7 @@
 	import { goto } from '$app/navigation';
 	import type {User} from "$lib/types";
 	import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
-	import {decrypt} from "$lib/functions/crpyt";
+	import {decrypt} from "$lib/functions/utils/crpyt";
 	import {onMount} from "svelte";
 
 	export let data;

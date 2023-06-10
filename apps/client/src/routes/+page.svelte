@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { login } from '$lib/functions/auth';
+	import { login } from '$lib/functions/utils/auth';
 	import { goto } from '$app/navigation';
-	import {encrypt} from "$lib/functions/crpyt.js";
+	import {encrypt} from "$lib/functions/utils/crpyt.js";
 
 	export let data;
 	let email,

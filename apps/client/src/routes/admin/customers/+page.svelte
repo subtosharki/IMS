@@ -6,7 +6,7 @@
 	import { deleteCustomer } from '$lib/functions/customers/deleteCustomer';
 	import { updateCustomerNotes } from '$lib/functions/customers/updateCustomerNotes';
 	import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
-	import {decrypt} from "$lib/functions/crpyt";
+	import {decrypt} from "$lib/functions/utils/crpyt";
 
 	export let data;
 	let customers = [] as Customer[],

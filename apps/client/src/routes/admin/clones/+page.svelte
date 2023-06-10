@@ -5,9 +5,9 @@
 	import { deleteClone } from '$lib/functions/clones/deleteClone';
 	import { editCloneName } from '$lib/functions/clones/editCloneName';
 	import { setCloneQuantity } from '$lib/functions/clones/setCloneQuantity';
-	import { getMonthName } from '$lib/functions/getMonthName';
+	import { getMonthName } from '$lib/functions/utils/getMonthName';
 	import type { Clone, User } from '$lib/types';
-	import {decrypt} from "$lib/functions/crpyt";
+	import {decrypt} from "$lib/functions/utils/crpyt";
 	import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
 
 	export let data;

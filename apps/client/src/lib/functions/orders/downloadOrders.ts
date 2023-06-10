@@ -1,21 +1,21 @@
 import { getOrders } from '$lib/functions/orders/getOrders';
 import type { Clone } from '$lib/types';
-import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
+import { getUserByAPIKey } from '$lib/functions/users/getUserByAPIKey';
 
 export async function downloadOrders(
 	apikey: string,
-	fetch: typeof window.fetch,
+	fetch: typeof window.fetch
 ) {
 	const user = await getUserByAPIKey(apikey, fetch);
 	let orders = await getOrders(apikey, fetch);
-	if(!orders) {
-		return alert('No orders found')
+	if (!orders) {
+		return alert('No orders found');
 	}
-	if(user.role !== 'admin') {
-		orders = orders.filter(order => order.placedBy === user.email)
+	if (user.role !== 'admin') {
+		orders = orders.filter((order) => order.placedBy === user.email);
 	}
-	if(orders.length === 0) {
-		return alert('No orders found')
+	if (orders.length === 0) {
+		return alert('No orders found');
 	}
 	const keys = Object.keys(orders[0]);
 	let csv = '';

@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { createClone } from '$lib/functions/clones/createClone';
 	import type { User } from '$lib/types';
-	import {decrypt} from "$lib/functions/crpyt";
+	import {decrypt} from "$lib/functions/utils/crpyt";
 	import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
 	import {onMount} from "svelte";
 

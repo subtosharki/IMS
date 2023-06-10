@@ -2,12 +2,12 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { placeOrder } from '$lib/functions/orders/placeOrder';
-	import { getMonthName } from '$lib/functions/getMonthName';
+	import { getMonthName } from '$lib/functions/utils/getMonthName';
 	import type { Clone, Order, OrderClone, User } from '$lib/types';
 	import { getClones } from '$lib/functions/clones/getClones';
 	import { getCustomerNames } from '$lib/functions/customers/getCustomerNames';
 	import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
-	import {decrypt} from "$lib/functions/crpyt";
+	import {decrypt} from "$lib/functions/utils/crpyt";
 
 	export let data;
 	let clones: Clone[] = [],
@@ -17,7 +17,10 @@
 		dateRequired = '',
 		placedOrder = '' as Order,
 		notes = '',
-			customers = [] as string[];
+			customers = [] as string[],
+			city = '',
+	state = '',
+	zip = '';
 
 	onMount(async () => {
 		user = await getUserByAPIKey(decrypt(data.apikey), data.fetch!)

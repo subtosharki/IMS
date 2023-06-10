@@ -2,10 +2,10 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { getClones } from '$lib/functions/clones/getClones';
-	import { getMonthName } from '$lib/functions/getMonthName.js';
+	import { getMonthName } from '$lib/functions/utils/getMonthName.js';
 	import type { Clone, User } from '$lib/types';
 	import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
-	import {decrypt} from "$lib/functions/crpyt";
+	import {decrypt} from "$lib/functions/utils/crpyt";
 
 	export let data;
 	let clones: Clone[] = [],
