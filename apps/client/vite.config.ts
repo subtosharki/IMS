@@ -8,7 +8,12 @@ export default defineConfig({
 		sentrySvelteKit(),
 		sveltekit(),
 		SvelteKitPWA({
+			srcDir: './src',
+			mode: 'development',
 			registerType: 'autoUpdate',
+			strategies: 'generateSW',
+			scope: '/',
+			base: '/',
 			devOptions: {
 				enabled: true,
 				type: 'module',
