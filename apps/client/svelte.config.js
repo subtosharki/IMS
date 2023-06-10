@@ -10,6 +10,9 @@ const config = {
 		files: {
 			assets: 'static',
 		},
+		serviceWorker: {
+			register: false,
+		}
 	},
 };
 
