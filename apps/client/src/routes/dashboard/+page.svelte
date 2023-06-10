@@ -17,15 +17,14 @@
 	onMount(async () => {
 		user = await getUserByAPIKey(decrypt(data.apikey), data.fetch!)
 		clones = await getClones(user.apikey, data.fetch!);
-		if(clones.length !== 0) {
-			clones.sort((a, b) => {
-				if (a.date.split('/')[1] > b.date.split('/')[1]) return 1;
-				if (a.date.split('/')[1] < b.date.split('/')[1]) return -1;
-				if (a.date.split('/')[0] > b.date.split('/')[0]) return 1;
-				if (a.date.split('/')[0] < b.date.split('/')[0]) return -1;
-				return 0;
-			})
-		}
+		if(!clones) return;
+		clones.sort((a, b) => {
+			if (a.date.split('/')[1] > b.date.split('/')[1]) return 1;
+			if (a.date.split('/')[1] < b.date.split('/')[1]) return -1;
+			if (a.date.split('/')[0] > b.date.split('/')[0]) return 1;
+			if (a.date.split('/')[0] < b.date.split('/')[0]) return -1;
+			return 0;
+		})
 	});
 </script>
 
