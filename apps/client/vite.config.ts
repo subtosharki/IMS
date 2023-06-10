@@ -15,6 +15,7 @@ export default defineConfig({
 			strategies: 'generateSW',
 			scope: '/',
 			base: '/',
+			outDir: 'build',
 			devOptions: {
 				enabled: true,
 				type: 'module',
