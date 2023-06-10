@@ -44,6 +44,9 @@
 		>Logout</button
 	>
 	<h2>Clones</h2>
+	{#if clones.length === 0}
+		<p>No clones found</p>
+	{:else}
 	<table>
 		<thead>
 			<tr>
@@ -64,6 +67,7 @@
 			{/each}
 		</tbody>
 	</table>
+	{/if}
 </main>
 
 <style>
