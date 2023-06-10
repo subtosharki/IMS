@@ -9,6 +9,7 @@ const config = {
 		adapter: adapter(),
 		files: {
 			assets: 'static',
+			serviceWorker: 'src/service-worker.js',
 		},
 		serviceWorker: {
 			register: false,

@@ -9,14 +9,14 @@ export default defineConfig({
 		sentrySvelteKit(),
 		sveltekit(),
 		SvelteKitPWA({
-			srcDir: './src',
+			srcDir: 'src',
 			mode: 'development',
 			injectRegister: 'auto',
-			registerType: 'autoUpdate',
-			strategies: 'generateSW',
+			strategies: 'injectManifest',
+			filename: 'service-worker.js',
 			scope: '/',
 			base: '/',
-			outDir: './.svelte-kit',
+			outDir: 'build',
 			devOptions: {
 				enabled: true,
 				type: 'module',
