@@ -45,7 +45,7 @@
 		>Logout</button
 	>
 	<h2>Clones</h2>
-	{#if clones.length === 0}
+	{#if !clones}
 		<p>No clones found</p>
 	{:else}
 	<table>
