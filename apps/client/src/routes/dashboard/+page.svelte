@@ -17,6 +17,7 @@
 	onMount(async () => {
 		user = await getUserByAPIKey(decrypt(data.apikey), data.fetch!)
 		clones = await getClones(user.apikey, data.fetch!);
+		if(clones.length === 0) return;
 		clones.sort((a, b) => {
 			if (a.date.split('/')[1] > b.date.split('/')[1]) return 1;
 			if (a.date.split('/')[1] < b.date.split('/')[1]) return -1;
