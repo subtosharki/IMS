@@ -15,7 +15,7 @@ export default defineConfig({
 			strategies: 'generateSW',
 			scope: '/',
 			base: '/',
-			outDir: 'build',
+			outDir: './.svelte-kit',
 			devOptions: {
 				enabled: true,
 				type: 'module',
