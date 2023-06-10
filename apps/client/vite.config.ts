@@ -23,6 +23,7 @@ export default defineConfig({
 				globPatterns: ['**/*.{js,css,html,ico,png}'],
 			},
 			manifest: {
+				id: 'com.ims',
 				name: 'Inventory Management System',
 				short_name: 'IMS',
 				description: 'Inventory Management System',
