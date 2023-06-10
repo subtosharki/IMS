@@ -33,6 +33,7 @@
 	"dependencies": {
 		"@sentry/sveltekit": "^7.53.1",
 		"@vite-pwa/sveltekit": "^0.2.5",
-		"crypto-js": "^4.1.1"
+		"crypto-js": "^4.1.1",
+		"vite-plugin-pwa": "^0.16.3"
 	}
 }
