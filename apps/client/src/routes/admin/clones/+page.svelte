@@ -48,12 +48,12 @@
 		<p>Filter By Month</p>
 		<select on:change={async () => {
 			const choice = (document.querySelector('select')).value;
-			if(choice === '0') return clones = await getClones(user.apikey, data.fetch);
+			if(choice === '-1') return clones = await getClones(user.apikey, data.fetch);
 			clones = await getClones(user.apikey, data.fetch);
-clones = clones.filter(clone =>
-	 Number(clone.date.split('/')[0].at(1)) === Number(choice) + 1
-		)}}>
-			<option value="0">All</option>
+			clones = clones.filter(clone =>
+	 			Number(clone.date.split('/')[0].at(1)) === Number(choice) + 1)
+		}}>
+			<option value="-1">All</option>
 			{#each Array.from(Array(12).keys()) as month}
 				<option value={month}>{getMonthName(month + 1)}</option>
 			{/each}
