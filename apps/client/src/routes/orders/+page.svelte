@@ -21,6 +21,7 @@
 
 	async function loadOrders() {
 		orders = await getOrders(user.apikey, data.fetch!);
+		if(!orders) return;
 		voidedOrders = orders.filter((order) => order.status !== 'In Progress');
 		orders = orders.filter((order) => order.status === 'In Progress');
 	}
@@ -47,7 +48,10 @@
 			>Download Order Logs</button
 		>
 	{/if}
-	<table>
+	{#if !orders}
+		<p>No orders found</p>
+		{:else}
+		<table>
 		<thead>
 			<tr>
 				<th>Use</th>
@@ -124,6 +128,7 @@
 			{/each}
 		</tbody>
 	</table>
+	{/if}
 </main>
 
 <style>

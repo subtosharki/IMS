@@ -108,6 +108,10 @@
 		<label for="readytime">Date Required</label>
 		<input type="date" id="readytime" name="readytime" required bind:value={dateRequired} />
 
+		{#if !clones}
+			<p>No Clones Found\</p>
+		{:else}
+
 		<label for="clones">Select Clones</label>
 		<table id="clones">
 			<thead>
@@ -151,12 +155,17 @@
 				{/each}
 			</tbody>
 		</table>
-		<br>
+			<br>
+		{/if}
 
 		<label for="notes">Extra Notes</label>
 		<textarea id="notes" bind:value={notes} cols="62" rows="5"/>
 
-		<button type="submit" on:click={() => (window.location.href = '#top')}>Place Order</button>
+		{#if !clones}
+			<button type="submit" disabled>Place Order</button>
+		{:else}
+			<button type="submit" on:click={() => (location.href = '#top')}>Place Order</button>
+		{/if}
 	</form>
 </main>
 

@@ -20,6 +20,7 @@
 	onMount(async () => {
 		user = await getUserByAPIKey(decrypt(data.apikey), data.fetch)
 		clones = await getClones(user.apikey, data.fetch);
+		if(!clones) return;
 		clones.sort((a, b) => {
 			if (a.date.split('/')[1] > b.date.split('/')[1]) return 1;
 			if (a.date.split('/')[1] < b.date.split('/')[1]) return -1;
@@ -41,6 +42,22 @@
 	<button on:click={async () => await goto('./')}>Back</button>
 	<button on:click={async () => await goto('clones/new')}>Create New Clone</button>
 
+	{#if !clones}
+		<p>No Clones Found</p>
+	{:else}
+		<p>Filter By Month</p>
+		<select on:change={async () => {
+			const choice = (document.querySelector('select')).value;
+			if(choice === '0') return clones = await getClones(user.apikey, data.fetch);
+			clones = await getClones(user.apikey, data.fetch);
+clones = clones.filter(clone =>
+	 Number(clone.date.split('/')[0].at(1)) === Number(choice) + 1
+		)}}>
+			<option value="0">All</option>
+			{#each Array.from(Array(12).keys()) as month}
+				<option value={month}>{getMonthName(month + 1)}</option>
+			{/each}
+		</select>
 	<table>
 		<tr>
 			<th>Clone Name</th>
@@ -80,6 +97,7 @@
 			</tr>
 		{/each}
 	</table>
+	{/if}
 </main>
 
 <style>

@@ -15,7 +15,6 @@
 	onMount(async () => {
 		user = await getUserByAPIKey(decrypt(data.apikey!), data.fetch!)
 		customers = await getCustomers(user.apikey, data.fetch!);
-		console.log(customers);
 	});
 </script>
 
@@ -30,6 +29,9 @@
 	<button on:click={async () => await goto('customers/add')}>Add Customer</button>
 	<p>Manage Customers Page</p>
 
+	{#if !customers}
+		<p>No customers found.</p>
+		{:else}
 	<table>
 		<thead>
 			<tr>
@@ -77,6 +79,7 @@
 			{/each}
 		</tbody>
 	</table>
+	{/if}
 </main>
 
 <style>

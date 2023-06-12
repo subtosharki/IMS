@@ -32,6 +32,9 @@
 	<button on:click={async () => await goto('users/add')}>Add User</button>
 	<p>Manage Users Page</p>
 
+	{#if !users}
+		<p>No Users Found</p>
+		{:else}
 	<table>
 		<thead>
 			<tr>
@@ -76,6 +79,7 @@
 			{/each}
 		</tbody>
 	</table>
+	{/if}
 </main>
 
 <style>
