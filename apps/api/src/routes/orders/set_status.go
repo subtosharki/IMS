@@ -26,7 +26,7 @@ func SetStatus(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid JSON fields", "errors": errors})
 	}
 
-	if bodyRequest.Status != "Voided" && bodyRequest.Status != "Fulfilled" && bodyRequest.Status != "In Progress" {
+	if bodyRequest.Status != "1 - Subculture" && bodyRequest.Status != "2 - Multiplication" && bodyRequest.Status != "3 - Transplant" && bodyRequest.Status != "4 - Rooting" && bodyRequest.Status != "5 - Finished Product" && bodyRequest.Status != "6 - FulFilled" && bodyRequest.Status != "Voided" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "Invalid status"})
 	}
 

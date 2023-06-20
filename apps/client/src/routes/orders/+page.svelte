@@ -12,8 +12,6 @@
 
 	export let data
 	let orders: Order[] = [],
-		voidedOrders: Order[] = [],
-		seeVoided = false,
 			user = {
 				email: '',
 				role: ''
@@ -22,8 +20,6 @@
 	async function loadOrders() {
 		orders = await getOrders(user.apikey, data.fetch!);
 		if(!orders) return;
-		voidedOrders = orders.filter((order) => order.status !== 'In Progress');
-		orders = orders.filter((order) => order.status === 'In Progress');
 	}
 	onMount(async () => {
 		user = await getUserByAPIKey(decrypt(data.apikey), data.fetch)
@@ -38,16 +34,31 @@
 
 <main>
 	<button on:click={async () => await goto('/dashboard')}>Back</button>
-	<h1>{!seeVoided ? 'Pending Orders' : 'Fulfilled/Voided Orders'}</h1>
+	<h1>{'Orders'}</h1>
 	<p>Welcome, {user.email} to the orders page</p>
-	<button on:click={() => (seeVoided = !seeVoided)}
-		>{!seeVoided ? 'View Fulfilled/Voided Orders' : 'View Pending Orders'}</button
-	>
 	{#if user.role.includes('admin')}
 		<button on:click={async () => await downloadOrders(user.apikey, data.fetch)}
 			>Download Order Logs</button
 		>
 	{/if}
+	<select on:change={async () => {
+		const status = (document.querySelector('select')).value
+		if(status === 'all') {
+			await loadOrders()
+		} else {
+			await loadOrders()
+			orders = orders.filter((order) => order.status.includes(status))
+		}
+	}}>
+		<option value="all" selected >All</option>
+		<option value="1">1 - Subculture</option>
+		<option value="2">2 - Multiplication</option>
+		<option value="3">3 - Transplant</option>
+		<option value="4">4 - Rooting</option>
+		<option value="5">5 - Finished Product</option>
+		<option value="6">6 - Fulfilled</option>
+			<option value="Voided">Voided</option>
+	</select>
 	{#if !orders}
 		<p>No orders found</p>
 		{:else}
@@ -68,7 +79,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each !seeVoided ? orders : voidedOrders as order}
+			{#each orders as order}
 				<tr>
 					<td>{order.use}</td>
 					<td>{order.customerName}</td>
@@ -104,7 +115,7 @@
 							}}}
 						>
 
-							{#each ['In Progress', 'Fulfilled'] as status}
+							{#each ['1 - Subculture', '2 - Multiplication', '3 - Transplant', '4 - Rooting', '5 - Finished Product', '6 - FulFilled'] as status}
 								<option value={status} selected={order.status === status}>{status}</option>
 							{/each}
 							{#if user.role.includes('admin')}

@@ -32,7 +32,7 @@ func Place(c *fiber.Ctx) error {
 		}
 	}
 	bodyRequest.DatePlaced = time.Now().Format("01-02-2006")
-	bodyRequest.Status = "In Progress"
+	bodyRequest.Status = "1 - Subculture"
 	bodyRequest.OrderNumber = strconv.Itoa(int(time.Now().Month())) + "-" + strconv.Itoa(time.Now().Day()) + "-" + strconv.Itoa(time.Now().Year()) + "-" + newName
 
 	mongodb := c.Locals("mongo").(*mongo.Database)

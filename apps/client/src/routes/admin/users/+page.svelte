@@ -55,6 +55,7 @@
 					<td>
 						<button
 							on:click={async () => {
+								if(loopedUser.email === user.email) return alert('You cannot toggle yourself')
 								await toggleAdmin(loopedUser.userId, user.apikey, data.fetch);
 								users.forEach((user) => {
 									if (user.userId === loopedUser.userId) {
@@ -68,12 +69,15 @@
 								users = users;
 							}}>Toggle Admin</button
 						>
-						<button
-							on:click={async () => {
-								await deleteUser(loopedUser.userId, user.apikey, data.fetch);
-								users = users.filter((user) => user.userId !== loopedUser.userId);
+							<button
+									on:click={async () => {
+										if(loopedUser.email === user.email) return alert('You cannot delete yourself')
+										if(confirm('Are you sure you want to delete this user?')) {
+											await deleteUser(loopedUser.userId, user.apikey, data.fetch);
+											users = users.filter((user) => user.userId !== loopedUser.userId);
+										}
 							}}>Delete</button
-						>
+							>
 					</td>
 				</tr>
 			{/each}
