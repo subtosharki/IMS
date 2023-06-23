@@ -17,7 +17,14 @@ export interface CreateUserBody {
 	admin: boolean;
 }
 
-export type OrderStatus = '1 - Subculture' | '2 - Multiplication' | '3 - Transplant' | '4 - Rooting' | '5 - Finished Product' | '6 - FulFilled' | 'Voided';
+export type OrderStatus =
+	| '1 - Subculture'
+	| '2 - Multiplication'
+	| '3 - Transplant'
+	| '4 - Rooting'
+	| '5 - Finished Product'
+	| '6 - FulFilled'
+	| 'Voided';
 
 export interface Clone {
 	id: string;

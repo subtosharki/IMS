@@ -34,13 +34,12 @@
 
 <main>
 	<button on:click={async () => await goto('/dashboard')}>Back</button>
-	<h1>{'Orders'}</h1>
+	<h1>Orders</h1>
 	<p>Welcome, {user.email} to the orders page</p>
-	{#if user.role.includes('admin')}
 		<button on:click={async () => await downloadOrders(user.apikey, data.fetch)}
 			>Download Order Logs</button
 		>
-	{/if}
+	<button on:click={async () => await goto('orders/barcode')}>Barcode Edit Mode</button>
 	<select on:change={async () => {
 		const status = (document.querySelector('select')).value
 		if(status === 'all') {
