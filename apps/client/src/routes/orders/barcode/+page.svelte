@@ -37,11 +37,16 @@
     <form on:submit={async () => {
         const statuses = ['1 - Subculture', '2 - Multiplication', '3 - Transplant', '4 - Rooting', '5 - Finished Product', '6 - FulFilled']
         if(barcode.length === 1) {
+            if(barcode !== '1' && barcode !== '2' && barcode !== '3' && barcode !== '4' && barcode !== '5' && barcode !== '6') {
+                alert("Invalid mode")
+                return
+            }
             statuses.forEach(status => {
                 if(status.startsWith(barcode)) {
                     mode = status
                 }
             })
+            return
         }
         try {
         await setOrderStatus(barcode, mode, user.apikey, data.fetch)
