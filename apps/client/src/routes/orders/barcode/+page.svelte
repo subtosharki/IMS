@@ -1,5 +1,4 @@
 <script lang="ts">
-    import type {OrderStatus} from "$lib/types";
     import {setOrderStatus} from "$lib/functions/orders/setOrderStatus";
     import {onMount} from "svelte";
     import {getUserByAPIKey} from "$lib/functions/users/getUserByAPIKey";
@@ -36,7 +35,7 @@
     <p>Mode: {mode}</p>
     <form on:submit={async () => {
         const statuses = ['1 - Subculture', '2 - Multiplication', '3 - Transplant', '4 - Rooting', '5 - Finished Product', '6 - FulFilled']
-        if(barcode.length === 1 && Number.isInteger(barcode) &&  6 >= Number(barcode) <= 1 ) {
+        if(barcode.length === 1 && !isNaN(Number(barcode)) &&  6 >= Number(barcode) <= 1 ) {
             if(barcode !== '1' && barcode !== '2' && barcode !== '3' && barcode !== '4' && barcode !== '5' && barcode !== '6') {
                 alert("Invalid mode")
                 return
