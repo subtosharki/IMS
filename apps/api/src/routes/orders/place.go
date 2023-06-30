@@ -31,10 +31,6 @@ func Place(c *fiber.Ctx) error {
 			newName += "_"
 		}
 	}
-	bodyRequest.DatePlaced = time.Now().Format("01-02-2006")
-	bodyRequest.Status = "1 - Subculture"
-	bodyRequest.OrderNumber = strconv.Itoa(int(time.Now().Month())) + "-" + strconv.Itoa(time.Now().Day()) + "-" + strconv.Itoa(time.Now().Year()) + "-" + newName
-
 	mongodb := c.Locals("mongo").(*mongo.Database)
 	collection := mongodb.Collection("orders")
 
@@ -57,6 +53,10 @@ func Place(c *fiber.Ctx) error {
 			bodyRequest.OrderNumber = strconv.Itoa(int(time.Now().Month())) + "-" + strconv.Itoa(time.Now().Day()) + "-" + strconv.Itoa(time.Now().Year()) + "-" + strconv.Itoa(uppedNumber) + "-" + newName
 		}
 	}
+
+	bodyRequest.DatePlaced = time.Now().Format("01-02-2006")
+	bodyRequest.Status = "1 - Subculture"
+	bodyRequest.OrderNumber = strconv.Itoa(int(time.Now().Month())) + "-" + strconv.Itoa(time.Now().Day()) + "-" + strconv.Itoa(time.Now().Year()) + "-" + newName
 
 	user := c.Locals("user").(*structs.User)
 

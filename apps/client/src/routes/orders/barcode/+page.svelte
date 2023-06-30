@@ -20,6 +20,7 @@
 
 <main>
     <button on:click={async () => await goto('./')}>Back</button>
+    <h1>Barcode Order Edit</h1>
     {#if !mode}
         <select on:change={() => mode = (document.querySelector('select')).value}>
             <option value="0" disabled selected>Select a mode</option>
@@ -31,12 +32,11 @@
             <option value="6 - FulFilled">6 - FulFilled</option>
         </select>
         {:else}
-    <h1>Barcode Order Edit</h1>
     <p>Scan a barcode to edit an order</p>
     <p>Mode: {mode}</p>
     <form on:submit={async () => {
         const statuses = ['1 - Subculture', '2 - Multiplication', '3 - Transplant', '4 - Rooting', '5 - Finished Product', '6 - FulFilled']
-        if(barcode.length === 1) {
+        if(barcode.length === 1 && Number.isInteger(barcode) &&  6 >= Number(barcode) <= 1 ) {
             if(barcode !== '1' && barcode !== '2' && barcode !== '3' && barcode !== '4' && barcode !== '5' && barcode !== '6') {
                 alert("Invalid mode")
                 return
@@ -46,12 +46,13 @@
                     mode = status
                 }
             })
-            return
-        }
+        } else alert("Invalid barcode")
+        if(barcode.length > 1) {
         try {
         await setOrderStatus(barcode, mode, user.apikey, data.fetch)
         } catch (e) {
             alert("Unable to find order")
+        }
         }
         barcode = ''
     }}>
